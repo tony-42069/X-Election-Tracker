@@ -2,7 +2,7 @@
 
 ## The Race to November 5th: Trump vs Harris
 
-A real-time sentiment analysis dashboard tracking public opinion on X (formerly Twitter) for the unprecedented 2024 presidential race between Donald Trump and Kamala Harris. Watch as the sentiment battle unfolds, updated every 12 hours until the polls open!
+A real-time sentiment analysis dashboard tracking public opinion on X (formerly Twitter) for the unprecedented 2024 presidential race between Donald Trump and Kamala Harris. Watch as the sentiment battle unfolds, updated every hour between now and until the polls open November 5th!
 
 ![Sentiment Tracker Demo](placeholder-for-your-screenshot.png)
 
@@ -12,7 +12,7 @@ A real-time sentiment analysis dashboard tracking public opinion on X (formerly 
 - **Two Contenders**: 
   - 🐘 Donald Trump (Red Line)
   - 🐴 Kamala Harris (Blue Line)
-- **Updates Every 12 Hours**: Fresh data twice daily
+- **Updates Every Hour**: Fresh data 24/7
 - **Countdown to Polls**: Live countdown to November 5th, 6 AM
 - **Historical Trends**: Track how sentiment changes over time
 
@@ -26,7 +26,7 @@ A real-time sentiment analysis dashboard tracking public opinion on X (formerly 
 
 ### 📊 How It Works
 
-1. Every 12 hours, our script analyzes current X sentiment
+1. Every hour, our script analyzes current X sentiment
 2. Sentiment scores range from 0-100%
 3. Data is stored and visualized in real-time
 4. Historical trends show momentum shifts
@@ -86,58 +86,8 @@ Want to track different candidates or topics? The codebase is easily adaptable f
 
 ### 📫 Contact
 
-- Your Name
-- Twitter/X: @yourusername
-- GitHub: yourusername
+- Dorian
+- X: @CREdebtDorian
+- GitHub: tony-42069
 
 ---
-
-### 🎯 Next Steps to Publish
-
-1. Create a new GitHub repository:
-   - Go to GitHub.com
-   - Click "New repository"
-   - Name it "x-election-tracker"
-   - Make it Public
-   - Add this README.md
-
-2. Initialize your local git repository:
-```bash
-git init
-git add .
-git commit -m "Initial commit: X Election Sentiment Tracker"
-git branch -M main
-git remote add origin https://github.com/yourusername/x-election-tracker.git
-git push -u origin main
-```
-
-3. Add a screenshot:
-   - Take a screenshot of your working dashboard
-   - Save it in the repository
-   - Update the image link in the README
-
-4. Important files to include:
-   ```
-   x-election-tracker/
-   ├── README.md
-   ├── index.html
-   ├── update_dashboard.ps1
-   ├── sentiment_data.json
-   ├── screenshot.png
-   └── .gitignore
-   ```
-
-5. Create .gitignore file:
-```
-# API keys
-config.json
-
-# Local data
-*.log
-
-# System files
-.DS_Store
-Thumbs.db
-```
-
-Would you like me to help you set up any of these steps or modify the README further?
