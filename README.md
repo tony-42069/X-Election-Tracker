@@ -26,7 +26,7 @@ A real-time sentiment analysis dashboard tracking public opinion on X for the un
 
 ### 📊 How It Works
 
-1. Every hour, our script analyzes current X sentiment
+1. Every hour, our script analyzes current X sentiment. Sentiment is tracked as who the people believe is winning at that time. 
 2. Sentiment scores range from 0-100%
 3. Data is stored and visualized in real-time
 4. Historical trends show momentum shifts
@@ -88,6 +88,5 @@ Want to track different candidates or topics? The codebase is easily adaptable f
 
 - Dorian
 - X: @CREdebtDorian
-- GitHub: tony-42069
-
+- 
 ---
