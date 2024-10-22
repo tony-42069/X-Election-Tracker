@@ -4,7 +4,7 @@
 
 A real-time sentiment analysis dashboard tracking public opinion on X for the unprecedented 2024 presidential race between Donald Trump and Kamala Harris. Watch as the sentiment battle unfolds, updated every hour between now and until the polls open November 5th!
 
-![Sentiment Tracker Demo](placeholder-for-your-screenshot.png)
+![Sentiment Tracker Demo](dashboard-preview.png)
 
 ### 🎯 What We're Tracking
 
