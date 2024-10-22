@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 95%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        .current-values {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .value-box {
+            padding: 25px 40px;
+            border-radius: 10px;
+            min-width: 250px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .trump-value {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .harris-value {
+            background: rgba(0, 0, 255, 0.1);
+            border: 2px solid rgba(0, 0, 255, 0.2);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            margin: 40px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .countdown {
+            text-align: center;
+            font-size: 1.4em;
+            margin-top: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .countdown h3 {
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        #countdown {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>X Election Sentiment Tracker</h1>
+        </div>
+
+        <div class="current-values">
+                        <div class="value-box trump-value">
+                <strong>Trump Current: </strong><span id="trumpCurrent">42%</span>
+            </div>
+            <div class="value-box harris-value">
+                <strong>Harris Current: </strong><span id="harrisCurrent">42%</span>
+            </div>
+        </div>
+
+        <div class="countdown">
+            <h3>Time Until Polls Open:</h3>
+            <div id="countdown">Loading...</div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="sentimentChart"></canvas>
+        </div>
+
+        
+    </div>
+
+    <script>
+        // Initial data
+        const initialData = {
+            timestamps: ["2024-10-21 21:52"],
+            trumpSentiment: [42],
+            harrisSentiment: [42]
+        };
+
+        // Initialize the chart
+        const ctx = document.getElementById('sentimentChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: initialData.timestamps,
+                datasets: [{
+                    label: 'Trump Sentiment',
+                    borderColor: '#ff0000',
+                    backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                    data: initialData.trumpSentiment,
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }, {
+                    label: 'Harris Sentiment',
+                    borderColor: '#0000ff',
+                    backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                    data: initialData.harrisSentiment,
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Sentiment %',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Timeline',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Sentiment Trends',
+                        font: {
+                            size: 20,
+                            weight: 'bold'
+                        },
+                        padding: 20
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
+                            },
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+
+        // Countdown function
+        function updateCountdown() {
+            const now = new Date();
+            const endDate = new Date('2024-11-05T06:00:00');
+            const diff = endDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = 'Finished!';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').textContent = 
+                `${days} days, ${hours} hours, ${minutes} minutes`;
+        }
+
+        // Update countdown every minute
+        setInterval(updateCountdown, 60000);
+        updateCountdown();
+
+        // Refresh page every 12 hours to get new data
+        setTimeout(() => {
+            window.location.reload();
+        }, 1 * 60 * 60 * 1000);
+    </script>
+</body>
+</html>
