@@ -86,7 +86,6 @@ Want to track different candidates or topics? The codebase is easily adaptable f
 
 ### 📫 Contact
 
-- Dorian
 - X: @CREdebtDorian
-- 
+
 ---
