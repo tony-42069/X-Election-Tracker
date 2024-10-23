@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sentiment Analysis Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Election Sentiment Tracker</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <style>
         body {
@@ -12,7 +13,6 @@
             background: #f8f9fa;
             min-height: 100vh;
         }
-
         .dashboard {
             max-width: 1200px;
             margin: 0 auto;
@@ -22,18 +22,15 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             width: 95%;
         }
-
         .header {
             text-align: center;
             margin-bottom: 40px;
         }
-
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 30px;
             color: #1a1a1a;
         }
-
         .current-values {
             display: flex;
             justify-content: space-around;
@@ -42,7 +39,6 @@
             background: #f8f9fa;
             border-radius: 12px;
         }
-
         .value-box {
             padding: 25px 40px;
             border-radius: 10px;
@@ -52,17 +48,14 @@
             font-weight: 500;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
         .trump-value {
             background: rgba(255, 0, 0, 0.1);
             border: 2px solid rgba(255, 0, 0, 0.2);
         }
-
         .harris-value {
             background: rgba(0, 0, 255, 0.1);
             border: 2px solid rgba(0, 0, 255, 0.2);
         }
-
         .chart-container {
             position: relative;
             height: 600px;
@@ -73,7 +66,6 @@
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
         .countdown {
             text-align: center;
             font-size: 1.4em;
@@ -83,17 +75,6 @@
             border-radius: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-
-        .countdown h3 {
-            margin-bottom: 15px;
-            color: #1a1a1a;
-        }
-
-        #countdown {
-            font-size: 1.2em;
-            font-weight: 500;
-            color: #2c3e50;
-        }
     </style>
 </head>
 <body>
@@ -101,60 +82,60 @@
         <div class="header">
             <h1>X Election Sentiment Tracker</h1>
         </div>
-
         <div class="current-values">
-                        <div class="value-box trump-value">
-                <strong>Trump Current: </strong><span id="trumpCurrent">42%</span>
+            <div class="value-box trump-value">
+                <strong>Trump Current: </strong><span id="trumpCurrent">Loading...</span>
             </div>
             <div class="value-box harris-value">
-                <strong>Harris Current: </strong><span id="harrisCurrent">42%</span>
+                <strong>Harris Current: </strong><span id="harrisCurrent">Loading...</span>
             </div>
         </div>
-
         <div class="countdown">
             <h3>Time Until Polls Open:</h3>
             <div id="countdown">Loading...</div>
         </div>
-        
         <div class="chart-container">
             <canvas id="sentimentChart"></canvas>
         </div>
-
-        
     </div>
 
     <script>
-        // Initial data
-        const initialData = {
-            timestamps: ["2024-10-21 21:52"],
-            trumpSentiment: [42],
-            harrisSentiment: [42]
-        };
+        async function fetchData() {
+            try {
+                console.log('Fetching data...');
+                const response = await fetch('./sentiment_data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Data received:', data);
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        }
 
         // Initialize the chart
         const ctx = document.getElementById('sentimentChart').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: initialData.timestamps,
+                labels: [],
                 datasets: [{
                     label: 'Trump Sentiment',
                     borderColor: '#ff0000',
                     backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                    data: initialData.trumpSentiment,
+                    data: [],
                     borderWidth: 3,
-                    tension: 0.4,
-                    pointRadius: 6,
-                    pointHoverRadius: 8
+                    tension: 0.4
                 }, {
                     label: 'Harris Sentiment',
                     borderColor: '#0000ff',
                     backgroundColor: 'rgba(0, 0, 255, 0.1)',
-                    data: initialData.harrisSentiment,
+                    data: [],
                     borderWidth: 3,
-                    tension: 0.4,
-                    pointRadius: 6,
-                    pointHoverRadius: 8
+                    tension: 0.4
                 }]
             },
             options: {
@@ -163,41 +144,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 100,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Sentiment %',
-                            font: {
-                                size: 16,
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Timeline',
-                            font: {
-                                size: 16,
-                                weight: 'bold'
-                            }
-                        }
+                        max: 100
                     }
                 },
                 plugins: {
@@ -205,51 +152,56 @@
                         display: true,
                         text: 'Sentiment Trends',
                         font: {
-                            size: 20,
-                            weight: 'bold'
-                        },
-                        padding: 20
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 14
-                            },
-                            padding: 20
+                            size: 20
                         }
                     }
                 }
             }
         });
 
-        // Countdown function
+        async function updateDashboard() {
+            const data = await fetchData();
+            if (data) {
+                // Update chart
+                chart.data.labels = data.timestamps;
+                chart.data.datasets[0].data = data.trumpSentiment.map(Number);
+                chart.data.datasets[1].data = data.harrisSentiment.map(Number);
+                chart.update();
+
+                // Update current values
+                const lastIndex = data.timestamps.length - 1;
+                document.getElementById('trumpCurrent').textContent = 
+                    data.trumpSentiment[lastIndex] + '%';
+                document.getElementById('harrisCurrent').textContent = 
+                    data.harrisSentiment[lastIndex] + '%';
+            }
+        }
+
         function updateCountdown() {
             const now = new Date();
             const endDate = new Date('2024-11-05T06:00:00');
             const diff = endDate - now;
-
+            
             if (diff <= 0) {
-                document.getElementById('countdown').textContent = 'Finished!';
+                document.getElementById('countdown').textContent = 'Polls are open!';
                 return;
             }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
+            
             document.getElementById('countdown').textContent = 
                 `${days} days, ${hours} hours, ${minutes} minutes`;
         }
 
-        // Update countdown every minute
-        setInterval(updateCountdown, 60000);
+        // Initial updates
+        updateDashboard();
         updateCountdown();
 
-        // Refresh page every 12 hours to get new data
-        setTimeout(() => {
-            window.location.reload();
-        }, 1 * 60 * 60 * 1000);
+        // Set up regular updates
+        setInterval(updateDashboard, 60000); // Update every minute
+        setInterval(updateCountdown, 60000); // Update countdown every minute
     </script>
 </body>
 </html>

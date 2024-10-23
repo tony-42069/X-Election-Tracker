@@ -1,4 +1,4 @@
-# 🏁 2024 Presidential Race Sentiment Tracker 🏁
+# 🏁 2024 Presidential Race Sentiment Tracker 🏁 
 
 ## The Race to November 5th: Trump vs Harris
 
@@ -35,8 +35,8 @@ A real-time sentiment analysis dashboard tracking public opinion on X for the un
 ### 🎮 The Game
 
 Watch the race unfold as two distinct lines battle for position:
-- **Red Line**: Trump sentiment
-- **Blue Line**: Harris sentiment
+- **Red Line**: Trump 
+- **Blue Line**: Harris 
 
 Who will maintain better sentiment as we approach Election Day? Will there be dramatic shifts? Major events causing sentiment swings?
 
